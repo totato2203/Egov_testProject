@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="testMapper">
+    
+	<resultMap id="testList" type="egovframework.com.cop.cmy.service.testVO">
+		<result property="testNo" column="testNo"/>
+		<result property="testTitle" column="testTitle"/>
+		<result property="testWriter" column="testWriter"/>
+		<result property="testRdate" column="testRdate"/>
+		<result property="testUdate" column="testUdate"/>
+		<result property="hits" column="hits"/>
+		<result property="testContent" column="testContent"/>
+		<result property="searchWrd" column="searchWrd"/>
+		<result property="searchType" column="searchType"/>
+		<result property="testTitleContent" column="testTitleContent"/>
+		<result property="pageIndex" column="pageIndex"/>
+	</resultMap>
+	
+	<resultMap id="testDetail" type="egovframework.com.cop.cmy.service.testVO">
+	    <result property="testNo" column="testNo"/>
+		<result property="testTitle" column="testTitle"/>
+		<result property="testWriter" column="testWriter"/>
+		<result property="testRdate" column="testRdate"/>
+		<result property="testUdate" column="testUdate"/>
+		<result property="hits" column="hits"/>
+		<result property="testContent" column="testContent"/>
+		<result property="searchWrd" column="searchWrd"/>
+		<result property="searchType" column="searchType"/>
+		<result property="testTitleContent" column="testTitleContent"/>
+	</resultMap>
+	
+	<resultMap id="testListPortlet" type="egovframework.com.cop.cmy.service.testVO">
+	    <result property="testNo" column="testNo"/>
+		<result property="testTitle" column="testTitle"/>
+		<result property="testWriter" column="testWriter"/>
+		<result property="testRdate" column="testRdate"/>
+		<result property="testUdate" column="testUdate"/>
+		<result property="hits" column="hits"/>
+		<result property="testContent" column="testContent"/>
+		<result property="searchWrd" column="searchWrd"/>
+		<result property="searchType" column="searchType"/>
+		<result property="testTitleContent" column="testTitleContent"/>
+	</resultMap>
+    
+    <!-- 테스트 게시판 목록 및 검색 -->
+    <select id="getTestList" parameterType="testVO" resultMap="testList">
+        SELECT *
+        FROM testVO
+        <if test="searchWrd != null and searchWrd != ''">
+            <choose>
+                <when test="searchType == 'testTitle'">
+                    WHERE testTitle LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+                <when test="searchType == 'testWriter'">
+                    WHERE testWriter LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+                <when test="searchType == 'testContent'">
+                    WHERE testContent LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+                <when test="searchType == 'testTitleContent'">
+                    WHERE testTitle LIKE CONCAT('%', #{searchWrd}, '%')
+                    OR testContent LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+            </choose>
+        </if>
+        ORDER BY testNo DESC
+        LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+    </select>
+    
+    <!-- 테스트 게시판 목록 개수 -->
+    <select id="getTestListCnt" parameterType="testVO" resultType="int">
+        SELECT COUNT(testNo)
+        FROM testVO
+        <if test="searchWrd != null and searchWrd != ''">
+            <choose>
+                <when test="searchType == 'testTitle'">
+                    WHERE testTitle LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+                <when test="searchType == 'testWriter'">
+                    WHERE testWriter LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+                <when test="searchType == 'testContent'">
+                    WHERE testContent LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+                <when test="searchType == 'testTitleContent'">
+                    WHERE testTitle LIKE CONCAT('%', #{searchWrd}, '%')
+                    OR testContent LIKE CONCAT('%', #{searchWrd}, '%')
+                </when>
+            </choose>
+        </if>
+    </select>
+    
+    <!-- 테스트 게시판 상세 -->
+    <select id="getTestDetail" parameterType="testVO" resultMap="testDetail">
+        SELECT *
+        FROM testVO
+        WHERE testNo = #{testNo}
+    </select>
+    
+    <!-- 테스트 게시판 조회수 증가 -->
+    <update id="readCountup" parameterType="testVO">
+        UPDATE testVO
+        SET hits = hits + 1
+        WHERE testNo = #{testNo}
+    </update>
+    
+    <!-- 테스트 게시판 등록 처리 -->
+    <insert id="insertTest" parameterType="testVO">
+        INSERT INTO
+        	testVO(
+        		testTitle, testWriter, testRdate, testUdate, testContent, hits
+        	)
+	    VALUES(
+	        #{testTitle},
+	        #{testWriter},
+	        NOW(),
+	        NOW(),
+	        #{testContent},
+	        0
+	    )
+    </insert>
+    
+    <!-- 테스트 게시판 수정 -->
+    <update id="updateTest" parameterType="testVO">
+        UPDATE testVO
+        SET testTitle = #{testTitle},
+           	testUdate = NOW(),
+        	testContent = #{testContent}
+        WHERE testNo = #{testNo}
+    </update>
+    
+    <!-- 테스트 게시판 삭제 -->
+    <delete id="deleteTest" parameterType="testVO">
+        DELETE from testVO
+        WHERE testNo = #{testNo}
+    </delete>
+    
+    <select id="getTestListPortlet" parameterType="testVO" resultMap="testListPortlet">
+        SELECT *
+        FROM testVO
+    </select>
+    
+</mapper>

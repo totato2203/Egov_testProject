@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE form-validation PUBLIC 
+    "-//Apache Software Foundation//DTD Commons Validator Rules Configuration 1.1//EN" 
+    "http://jakarta.apache.org/commons/dtds/validator_1_1.dtd">
+
+<form-validation>
+    <formset>
+		<form name="testDetail">
+			<field property="testTitle" depends="required, maxlength">
+        		<arg0 key="comCopCmy.testDetail.detail.testTitle" />
+        		<arg1 key="120" resource="true"/>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>120</var-value>
+				</var>
+			</field>
+			<field property="testWriter" depends="required, maxlength">
+        		<arg0 key="comCopCmy.testDetail.detail.testWriter" />
+        		<arg1 key="120" resource="true"/>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>120</var-value>
+				</var>
+			</field>
+			<field property="testRdate" depends="required, maxlength">
+        		<arg0 key="comCopCmy.testDetail.detail.testRdate" />
+        		<arg1 key="120" resource="true"/>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>120</var-value>
+				</var>
+			</field>
+			<field property="testUdate" depends="required, maxlength">
+        		<arg0 key="comCopCmy.testDetail.detail.testUdate" />
+        		<arg1 key="120" resource="true"/>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>120</var-value>
+				</var>
+			</field>
+			<field property="hits" depends="required, maxlength">
+        		<arg0 key="comCopCmy.testDetail.detail.hits" />
+        		<arg1 key="120" resource="true"/>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>120</var-value>
+				</var>
+			</field>
+			<field property="testContent" depends="required, maxlength">
+        		<arg0 key="comCopCmy.testDetail.detail.testContent" />
+        		<arg1 key="1200" resource="true"/>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>1200</var-value>
+				</var>
+			</field>		
+<!-- 			<field property="tmplatId" depends="required"> -->
+<!--         		<arg0 key="cop.tmplatId" /> -->
+<!-- 			</field>				 -->
+<!-- 			<field property="emplyrId" depends="required"> -->
+<!--         		<arg0 key="cop.cmmntyMngr" /> -->
+<!-- 			</field>  -->
+		</form>
+		
+    </formset>
+
+</form-validation>
